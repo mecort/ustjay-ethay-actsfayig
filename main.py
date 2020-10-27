@@ -1,7 +1,7 @@
 import os
 
 import requests
-from flask import Flask, send_file, Response
+from flask import Flask, send_file, Response, redirect
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
@@ -27,7 +27,8 @@ def piglatinize(fact):
 @app.route('/')
 def home():
     fact = get_fact()
-    return piglatinize(fact)
+    new_url = piglatinize(fact)
+    return redirect(new_url)
 
 
 if __name__ == "__main__":
