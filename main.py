@@ -14,12 +14,20 @@ def get_fact():
     soup = BeautifulSoup(response.content, "html.parser")
     facts = soup.find_all("div", id="content")
 
-    return facts[0].getText()
+    return facts[0].getText().strip()
+
+
+def piglatinize(fact):
+    url = 'https://hidden-journey-62459.herokuapp.com/piglatinize/'
+    kv_data = {'input_text': fact}
+    response = requests.post(url, data=kv_data, allow_redirects=False)
+    return response.headers['Location']
 
 
 @app.route('/')
 def home():
-    return "FILL ME!"
+    fact = get_fact()
+    return piglatinize(fact)
 
 
 if __name__ == "__main__":
